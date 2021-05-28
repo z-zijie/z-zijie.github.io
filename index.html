@@ -173,7 +173,37 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S neovim</span><br></pre></td></tr></table></figure>
 <p>For installation methods of other systems, please refer to <a target="_blank" rel="noopener" href="https://github.com/neovim/neovim/wiki/Installing-Neovim">Installing-Neovim</a>.</p>
 <h1 id="Brief-Introduction"><a href="#Brief-Introduction" class="headerlink" title="Brief Introduction"></a>Brief Introduction</h1><h3 id="Launch-Neovim"><a href="#Launch-Neovim" class="headerlink" title="Launch Neovim"></a>Launch Neovim</h3><p>Neovim is a command-line app. Use <code>nvim</code> in Terminal to launch Neovim.</p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+<h3 id="Basic-Operations"><a href="#Basic-Operations" class="headerlink" title="Basic Operations"></a>Basic Operations</h3><ul>
+<li>Move around: Use the cursor keys, or “h” to go left, “j” to go down, “k” to go up, “l” to go right.  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  k</span><br><span class="line">h   l</span><br><span class="line">  j</span><br></pre></td></tr></table></figure></li>
+<li>Use “:q<Enter>“ to close the window</li>
+<li>Use “:w<Enter>“ to save the file.</li>
+<li>We can combine them, use “:wq<Enter>“ to save the file and close the window.</li>
+</ul>
+<p>There are three main mode <code>Normal</code>, <code>Visual</code> and <code>Insert</code>.  </p>
+<ul>
+<li><p>By default, we are in Normal mode. We can use <code>hjkl</code> to move the cursor you want to.</p>
+</li>
+<li><p>Press <code>i</code> to enter <code>Insert</code> mode and Press <code>Esc</code> to go back to <code>Normal</code> mode.</p>
+<ul>
+<li>We can type anything to modify the file. </li>
+</ul>
+</li>
+<li><p>Press <code>v</code> to enter <code>Visual</code> mode and Press <code>Esc</code> to go back to <code>Normal</code> mode.</p>
+<ul>
+<li>We can use the blocks to select some part of the file.</li>
+</ul>
+</li>
+<li><p>Frequently used shortcuts</p>
+<ul>
+<li><code>dw</code>, delete the first word after the cursor.</li>
+<li><code>dd</code>, delete the current line where the cursor is.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Use <code>:help</code> to check more shortcut commands.</p>
+</blockquote>
+
       
 
       
