@@ -16,7 +16,7 @@
 <meta property="og:description" content="What is CMake ?CMake is cross-platform free and open-source software for build automation, testing, packaging and installation of software by using a compiler-independent method. Basic StartingBasic p">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-06-02T10:19:28.000Z">
-<meta property="article:modified_time" content="2021-06-03T09:34:59.497Z">
+<meta property="article:modified_time" content="2021-06-03T12:57:53.822Z">
 <meta property="article:author" content="Zijie Zhang">
 <meta property="article:tag" content="CMake">
 <meta property="article:tag" content="C&#x2F;C++">
@@ -175,25 +175,68 @@ var _hmt = _hmt || [];
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set the project name</span></span><br><span class="line"><span class="keyword">project</span>(Tutorial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span>(Tutorial tutorial.cxx)</span><br></pre></td></tr></table></figure>
 
 <p>Note that Upper, lower, and mixed case commands are supported by CMake. The source code for <code>tutorial.cxx</code>  is provided in the <code>Step1</code>  directory and can be used in compute the square root of a number.</p>
+<h2 id="Build-and-Test"><a href="#Build-and-Test" class="headerlink" title="Build and Test"></a>Build and Test</h2><ol>
+<li><p>Create a <strong>build</strong> directory.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir Step1_build</span><br></pre></td></tr></table></figure>
+
+<p>The <strong>Directory Structure</strong> is as follows</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├── Step1</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   └── tutorial.cpp</span><br><span class="line">└── Step1_build</span><br></pre></td></tr></table></figure></li>
+<li><p>Navigate to the build directory and <strong>run CMake</strong> to configure the project and generate a native build system:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> Step1_build</span><br><span class="line">cmake ../Step1</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Compile</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --build .</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Run</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./Tutorial</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><em>Next, I will introduce two features to end the content of <strong>Step1</strong>.</em></p>
 <h3 id="FEATURE-1"><a href="#FEATURE-1" class="headerlink" title="FEATURE 1"></a>FEATURE 1</h3><blockquote>
-<p>Version Number</p>
+<p>Version Number (provide our executable and project with a version number)</p>
 </blockquote>
+<ol>
+<li>Use <code>project()</code> command to set the project name and version number.</li>
+</ol>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set the project name and version</span></span><br><span class="line"><span class="keyword">project</span>(Tutorial VERSION <span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
 
-<p>Then, configure a header file to pass the version number to the source code:</p>
+<ol start="2">
+<li>Configure a <strong>header file</strong> to pass the version number to the source code:</li>
+</ol>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configure_file</span>(TutorialConfig.h.in TutorialConfig.h)</span><br></pre></td></tr></table></figure>
 
-<p>The configured file will be written into the binary tree, we <strong>must</strong> add that directory to the list of paths to search for include files. Add the following lines to the end of the <code>CMakeLists.txt</code> file:</p>
+<ol start="3">
+<li> Add the directory to the list of paths to search for include files. </li>
+</ol>
+<p>   Add the following lines to the end of the <code>CMakeLists.txt</code> file:</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_include_directories</span>(Tutorial PUBLIC</span><br><span class="line">                           <span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span></span><br><span class="line">                           )</span><br></pre></td></tr></table></figure>
 
-<p>Create <code>TutorialConfig.h.in</code> in the source directory with the following contents:</p>
+<ol start="4">
+<li>Create <code>TutorialConfig.h.in</code> in the source directory with the following contents:</li>
+</ol>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// the configured options <span class="keyword">and</span> settings for Tutorial</span><br><span class="line"><span class="comment">#define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@</span></span><br><span class="line"><span class="comment">#define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@</span></span><br></pre></td></tr></table></figure>
 
 <p>When CMake configures this header file the values for <code>@Tutorial_VERSION_MAJOR@</code> and <code>@Tutorial_VERSION_MINOR@</code> will be replaced.</p>
-<p>Next modify <code>tutorial.cxx</code> to include the configured header file, <code>TutorialConfig.h</code>.</p>
-<p>Finally, let’s print out the executable name and version number by updating <code>tutorial.cxx</code> as follows:</p>
+<ol start="5">
+<li><p>Modify <code>tutorial.cxx</code> to include the configured header file, <code>TutorialConfig.h</code>.</p>
+</li>
+<li><p>Finally, let’s print out the executable name and version number by updating <code>tutorial.cxx</code> as follows:</p>
+</li>
+</ol>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (argc &lt; <span class="number">2</span>) &#123;</span><br><span class="line">  <span class="comment">// report version</span></span><br><span class="line">  std::cout &lt;&lt; argv[<span class="number">0</span>] &lt;&lt; <span class="string">&quot; Version &quot;</span> &lt;&lt; Tutorial_VERSION_MAJOR &lt;&lt; <span class="string">&quot;.&quot;</span></span><br><span class="line">            &lt;&lt; Tutorial_VERSION_MINOR &lt;&lt; std::endl;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;Usage: &quot;</span> &lt;&lt; argv[<span class="number">0</span>] &lt;&lt; <span class="string">&quot; number&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="FEATURE-2"><a href="#FEATURE-2" class="headerlink" title="FEATURE 2"></a>FEATURE 2</h3><blockquote>
+<p>Specify C++ Standard</p>
+</blockquote>
+<p>Purpose: add some C++11 features to our project by replacing <code>atof</code> with <code>std::stod</code> in <code>tutorial.cxx</code>. At the same time, remove <code>#include &lt;cstdlib&gt;</code>.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> inputValue = std::<span class="built_in">stod</span>(argv[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><em>We will need to explicitly state in the CMake code that it should use the correct flags.</em></p>
+<ol>
+<li>Set the <code>CMAKE_CXX_STANDARD</code> variable in the <code>CMakeLists.txt</code> file to <code>11</code>.</li>
+<li>Set the <code>CMAKE_CXX_STANDARD_REQUIRED</code> to <code>True</code>. </li>
+<li>Make sure to add the <code>CMAKE_CXX_STANDARD</code> declarations above the call to <code>add_executable</code>.</li>
+</ol>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set the project name</span></span><br><span class="line"><span class="keyword">project</span>(Tutorial VERSION <span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># specify the C++ standard</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># configure a header file to pass the version number</span></span><br><span class="line"><span class="keyword">configure_file</span>(TutorialConfig.h.in TutorialConfig.h)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span>(Tutorial tutorial.cxx)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the directory to the list of paths</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(Tutorial PUBLIC</span><br><span class="line">                           <span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span></span><br><span class="line">                           )</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>See you later in <code>Step2</code> !</strong></em></p>
 
       
 
@@ -310,7 +353,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-CMake"><span class="toc-number">1.</span> <span class="toc-text">What is CMake ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Starting"><span class="toc-number">2.</span> <span class="toc-text">Basic Starting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FEATURE-1"><span class="toc-number">2.1.</span> <span class="toc-text">FEATURE 1</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-CMake"><span class="toc-number">1.</span> <span class="toc-text">What is CMake ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Starting"><span class="toc-number">2.</span> <span class="toc-text">Basic Starting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-and-Test"><span class="toc-number">3.</span> <span class="toc-text">Build and Test</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FEATURE-1"><span class="toc-number">3.1.</span> <span class="toc-text">FEATURE 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FEATURE-2"><span class="toc-number">3.2.</span> <span class="toc-text">FEATURE 2</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
